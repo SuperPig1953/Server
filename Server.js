@@ -1,4 +1,5 @@
-const WebSocket = require('node_modules/ws/index');
+
+const WebSocket = require('ws');
 const server = new WebSocket.Server({
   port: 8080
 });
