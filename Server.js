@@ -1,22 +1,23 @@
+const express = require('express');
+const app = express();
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("ws");
+const io = new Server(server);
+const PORT = process.env.PORT || 3000;
 
-const WebSocket = require('ws');
-const server = new WebSocket.Server({
-  port: 8080
+app.get('/', (req, res) => {
+    res.write(`<h1>Socket IO Start on Port : ${PORT}</h1>`);
+    res.end();
 });
-console.log("running")
-console.log(server.address())
-let sockets = [];
-server.on('connection', function(socket) {
-  sockets.push(socket);
-  console.log(socket.listenerCount())
-  
-  socket.on('message', function(msg) {
-    sockets.forEach(s => s.send(msg));
-    console.log(msg)
-  });
 
-  
-  socket.on('close', function() {
-    sockets = sockets.filter(s => s !== socket);
-  });
+io.on('connection', (socket) => {
+    console.log('a user connected');
+    socket.on('message', (ms) => {
+        io.emit('message', ms);
+    });
+});
+
+server.listen(PORT, () => {
+    console.log('listening on *:3000');
 });
