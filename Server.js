@@ -4,8 +4,8 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("ws");
 const io = new Server(server);
-const PORT = process.env.PORT || 3000;
-
+const PORT = 3000;
+console.log("running")
 app.get('/', (req, res) => {
     res.write(`<h1>Socket IO Start on Port : ${PORT}</h1>`);
     res.end();
